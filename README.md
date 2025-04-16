@@ -41,7 +41,7 @@ PING_LISTEN_PORT=7989 cargo run
 
 L'application peut être déployée dans un conteneur Docker. Pour cela, il suffit de lancer la commande suivante :
 
-# _Docker simple_
+### _Docker simple_
 
 ```bash
 docker build -t rust_api -f Dockerfile .
@@ -53,7 +53,7 @@ Puis de lancer le conteneur avec la commande suivante :
 docker run -d --rm--name rust_api_container -p 8000:8000 rust_api
 ```
 
-# _Docker multi-stage_
+### _Docker multi-stage_
 
 ```bash
 docker build -t rust_api_multi -f Dockerfile.multi .
