@@ -1,0 +1,17 @@
+# Étape 1 : Build
+FROM rust:1.85-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN cargo fetch
+RUN cargo build --release
+
+# Étape 2 : Image finale d'exécution
+FROM alpine:3.18
+WORKDIR /app
+
+# Copie uniquement le binaire compilé depuis l'étape builder
+COPY --from=builder /app/target/release/rust_api .
+RUN adduser -D -u 1001 rustuser
+USER rustuser
+EXPOSE 8000
+CMD ["./rust_api"]

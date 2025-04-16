@@ -10,7 +10,7 @@ WORKDIR /
 # Copier les fichiers de dépendances
 COPY . .
 
-# Installer les dépendances et compiler le projet
+# Installe les dépendances et compiler le projet
 RUN cargo fetch && cargo build --release
   
 # Utiliser l'utilisateur non-root pour l'exécution

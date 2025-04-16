@@ -1,4 +1,5 @@
 ## Installation des dépendances
+
 L'application nécessite d'avoir installé Rust et Cargo pour fonctionner.
 Elle utilise également la "crate" `serde` & `serde_json` pour serialiser en JSON les headers d'une requète lors d'un `GET /ping`.
 
@@ -9,6 +10,7 @@ cargo add serde serde_json
 ```
 
 ## Lancement du serveur Rust
+
 Pour lancer l'application, il suffit de lancer la commande suivante :
 
 ```bash
@@ -16,6 +18,7 @@ cargo run
 ```
 
 ## Variables d'environnement
+
 L'application écoute une variable d'env: **PING_LISTEN_PORT**
 
 La variable n'est pas nécéssaire au bon fonctionnement de l'application, mais elle permet de changer le port sur lequel le serveur écoute. Par défaut, le serveur écoute sur le port 8000.
@@ -35,19 +38,35 @@ PING_LISTEN_PORT=7989 cargo run
 ```
 
 ## Déploiement Docker
+
 L'application peut être déployée dans un conteneur Docker. Pour cela, il suffit de lancer la commande suivante :
 
+# _Docker simple_
+
 ```bash
-docker build -t rust_api .
+docker build -t rust_api -f Dockerfile .
 ```
 
 Puis de lancer le conteneur avec la commande suivante :
 
 ```bash
-docker run -d --name rust_api_container -p 8000:8000 rust_api
+docker run -d --rm--name rust_api_container -p 8000:8000 rust_api
+```
+
+# _Docker multi-stage_
+
+```bash
+docker build -t rust_api_multi -f Dockerfile.multi .
+```
+
+Puis de lancer le conteneur avec la commande suivante :
+
+```bash
+docker run -d --rm --name rust_api_container -p 8000:8000 rust_api_multi
 ```
 
 ## Vulnerabilités
+
 Apres avoir lancé le contneneur, il est possible de tester les vulnérabilités de l'application.
 Pour ce projet j'ai utilisé trivy, un scanner de vulnérabilités pour les images Docker.
 Intallation de trivy :
@@ -61,6 +80,7 @@ trivy image rust_api
 ```
 
 Voici le resultat du scan de l'image:
+
 ```bash
 ┌──────────────────────────────────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┐
 │                                      Target                                      │  Type  │ Vulnerabilities │ Secrets │
