@@ -1,15 +1,18 @@
-use std::{collections::HashMap, io::{BufRead, BufReader, Write}, net::{TcpListener, TcpStream}, env};
+use std::{collections::HashMap, env, io::{BufRead, BufReader, Write}, net::{TcpListener, TcpStream}, thread};
 use serde_json;
 
 fn main() {
     let port = env::var("PING_LISTEN_PORT").unwrap_or("8000".to_string());
     let addr = format!("0.0.0.0:{}", port);
-    let listener = TcpListener::bind(addr).unwrap();
+    let listener = TcpListener::bind(addr.clone()).unwrap();
+    println!("Listening on {}", addr);
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-       handle_connection(stream);
+        thread::spawn(|| {
+            handle_connection(stream);
+        });
     }
 }
 
